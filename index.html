@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finanzas Personales desde Cero — Valco por Jessica Valarezo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1B4332;
+    --verde-med: #2D6A4F;
+    --verde-cla: #52B788;
+    --verde-min: #D8F3DC;
+    --dorado: #F4A261;
+    --dorado-cla: #FFF3E0;
+    --blanco: #FFFFFF;
+    --gris: #F8F9FA;
+    --gris-tex: #4A4A4A;
+    --rojo: #E74C3C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--gris-tex);
+    background: var(--blanco);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--verde);
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 80px 8% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: var(--verde-med);
+    opacity: .35;
+    top: -200px; right: -200px;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    background: var(--verde-cla);
+    opacity: .15;
+    bottom: -100px; right: 30%;
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .badge {
+    display: inline-block;
+    background: var(--dorado);
+    color: var(--verde);
+    font-weight: 600;
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--blanco);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span { color: var(--verde-cla); }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    color: var(--verde-min);
+    margin: 20px 0 36px;
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .hero-checks { margin-bottom: 40px; }
+
+  .hero-checks li {
+    list-style: none;
+    color: var(--verde-min);
+    font-size: 1rem;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-checks li::before {
+    content: '✓';
+    color: var(--verde-cla);
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--dorado);
+    color: var(--verde);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 18px 42px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 20px rgba(244,162,97,.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(244,162,97,.5);
+  }
+
+  .precio-hint {
+    display: block;
+    color: var(--verde-min);
+    font-size: .85rem;
+    margin-top: 10px;
+    opacity: .8;
+  }
+
+  /* Mockup libro */
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .book-wrap {
+    position: relative;
+    width: 300px;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-14px); }
+  }
+
+  .book {
+    background: var(--verde-med);
+    border-radius: 12px;
+    padding: 36px 32px;
+    box-shadow: 20px 20px 60px rgba(0,0,0,.4), -4px -4px 20px rgba(82,183,136,.1);
+    position: relative;
+  }
+
+  .book::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 14px;
+    background: var(--verde);
+    border-radius: 12px 0 0 12px;
+  }
+
+  .book-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--blanco);
+    font-size: 1.3rem;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .book-title span { color: var(--verde-cla); }
+
+  .book-author {
+    color: var(--verde-min);
+    font-size: .8rem;
+    margin-bottom: 24px;
+  }
+
+  .book-line {
+    height: 2px;
+    background: var(--verde-cla);
+    opacity: .3;
+    margin: 8px 0;
+    border-radius: 2px;
+  }
+
+  .book-line:nth-child(odd) { width: 85%; }
+  .book-line:nth-child(even) { width: 65%; }
+
+  .book-badge {
+    background: var(--dorado);
+    color: var(--verde);
+    font-size: .7rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 24px;
+    letter-spacing: .05em;
+  }
+
+  .excel-badge {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: #217346;
+    color: white;
+    font-weight: 700;
+    font-size: .75rem;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* ── DOLOR ── */
+  .dolor {
+    background: var(--gris);
+    padding: 100px 8%;
+    text-align: center;
+  }
+
+  .section-tag {
+    display: inline-block;
+    color: var(--verde-cla);
+    font-weight: 600;
+    font-size: .8rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--verde);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .dolor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+    text-align: left;
+  }
+
+  .dolor-card {
+    background: var(--blanco);
+    border-radius: 12px;
+    padding: 32px;
+    border-left: 4px solid var(--rojo);
+    box-shadow: 0 2px 16px rgba(0,0,0,.06);
+    transition: transform .2s;
+  }
+
+  .dolor-card:hover { transform: translateY(-4px); }
+
+  .dolor-card .icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .dolor-card h3 {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--verde);
+    margin-bottom: 8px;
+  }
+
+  .dolor-card p {
+    font-size: .92rem;
+    line-height: 1.6;
+    color: var(--gris-tex);
+  }
+
+  /* ── SOLUCIÓN ── */
+  .solucion {
+    background: var(--verde);
+    padding: 100px 8%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .solucion::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: var(--verde-med);
+    opacity: .3;
+    top: -200px; left: -200px;
+  }
+
+  .solucion .section-title { color: var(--blanco); }
+
+  .solucion-intro {
+    color: var(--verde-min);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 60px;
+    line-height: 1.7;
+  }
+
+  .caps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+    text-align: left;
+  }
+
+  .cap-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(82,183,136,.2);
+    border-radius: 12px;
+    padding: 28px;
+    transition: background .2s, transform .2s;
+  }
+
+  .cap-card:hover {
+    background: rgba(255,255,255,.1);
+    transform: translateY(-4px);
+  }
+
+  .cap-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--verde-cla);
+    opacity: .4;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .cap-card h3 {
+    font-weight: 600;
+    color: var(--blanco);
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .cap-card p {
+    color: var(--verde-min);
+    font-size: .88rem;
+    line-height: 1.6;
+    opacity: .85;
+  }
+
+  /* ── BONUS ── */
+  .bonus {
+    padding: 100px 8%;
+    background: var(--dorado-cla);
+  }
+
+  .bonus-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .bonus h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--verde);
+    margin-bottom: 16px;
+  }
+
+  .bonus-desc {
+    color: var(--gris-tex);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .hojas-list { list-style: none; }
+
+  .hojas-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    font-size: .95rem;
+    color: var(--verde);
+    font-weight: 500;
+  }
+
+  .hojas-list li span.dot {
+    width: 10px; height: 10px;
+    background: var(--verde-cla);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .excel-mock {
+    background: #1e3a2f;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    font-family: monospace;
+  }
+
+  .excel-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .excel-tab {
+    background: #2d6a4f;
+    color: #d8f3dc;
+    font-size: .65rem;
+    padding: 4px 10px;
+    border-radius: 4px 4px 0 0;
+    cursor: default;
+  }
+
+  .excel-tab.active {
+    background: #52b788;
+    color: #1b4332;
+    font-weight: 700;
+  }
+
+  .excel-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+
+  .excel-cell {
+    background: #2d6a4f;
+    color: #d8f3dc;
+    font-size: .65rem;
+    padding: 5px 8px;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .excel-cell.label { text-align: left; background: #245a3f; }
+  .excel-cell.value { color: #52b788; font-weight: 700; }
+  .excel-cell.total { background: #1b4332; color: #f4a261; font-weight: 700; }
+
+  /* ── PARA QUIEN ── */
+  .para-quien {
+    padding: 100px 8%;
+    background: var(--blanco);
+    text-align: center;
+  }
+
+  .pq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+    text-align: left;
+  }
+
+  .pq-card {
+    border: 2px solid var(--verde-min);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color .2s, transform .2s;
+  }
+
+  .pq-card:hover {
+    border-color: var(--verde-cla);
+    transform: translateY(-4px);
+  }
+
+  .pq-card .icon { font-size: 1.8rem; margin-bottom: 14px; display: block; }
+  .pq-card h3 { font-weight: 600; color: var(--verde); margin-bottom: 8px; font-size: .95rem; }
+  .pq-card p { font-size: .88rem; line-height: 1.6; }
+
+  /* ── AUTORA ── */
+  .autora {
+    background: var(--verde-min);
+    padding: 100px 8%;
+  }
+
+  .autora-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .avatar {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: var(--verde);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: var(--verde-cla);
+    flex-shrink: 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,.15);
+  }
+
+  .autora-content .marca {
+    display: inline-block;
+    background: var(--verde);
+    color: var(--verde-cla);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .autora-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--verde);
+    margin-bottom: 16px;
+  }
+
+  .autora-content p {
+    color: var(--gris-tex);
+    line-height: 1.8;
+    font-size: .97rem;
+  }
+
+  /* ── CTA FINAL ── */
+  .cta-final {
+    background: var(--verde);
+    padding: 120px 8%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: var(--verde-med);
+    opacity: .25;
+    bottom: -300px; right: -200px;
+  }
+
+  .cta-final h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    color: var(--blanco);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-final p {
+    color: var(--verde-min);
+    font-size: 1.1rem;
+    max-width: 550px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 2;
+  }
+
+  .precio-box {
+    display: inline-block;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(82,183,136,.3);
+    border-radius: 16px;
+    padding: 40px 60px;
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .precio-label {
+    color: var(--verde-min);
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+  }
+
+  .precio-monto {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--dorado);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .precio-inc {
+    color: var(--verde-min);
+    font-size: .85rem;
+    opacity: .8;
+  }
+
+  .garantia {
+    color: var(--verde-min);
+    font-size: .85rem;
+    margin-top: 20px;
+    opacity: .7;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0d2b1e;
+    padding: 40px 8%;
+    text-align: center;
+    color: rgba(255,255,255,.4);
+    font-size: .82rem;
+  }
+
+  footer strong { color: var(--verde-cla); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 60px 6% 80px; text-align: center; }
+    .hero-visual { margin-top: 60px; }
+    .hero-checks li { justify-content: center; }
+    .bonus-inner { grid-template-columns: 1fr; gap: 40px; }
+    .autora-inner { grid-template-columns: 1fr; text-align: center; }
+    .avatar { margin: 0 auto; }
+    .precio-box { padding: 30px 32px; }
+  }
+
+  /* ── ANIMACIONES ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="badge">Ebook + Plantilla Excel</span>
+    <h1>Finanzas<br>Personales<br><span>desde Cero</span></h1>
+    <p class="hero-sub">La guía para los que nunca saben a dónde se va el dinero — sin ser contadora y sin fórmulas complicadas.</p>
+    <ul class="hero-checks">
+      <li>Cambia tu mentalidad sobre el dinero</li>
+      <li>Aplica el método 50/30/20 fácilmente</li>
+      <li>Elimina deudas tóxicas paso a paso</li>
+      <li>Construye tu fondo de emergencia</li>
+      <li>Plantilla Excel completa incluida</li>
+    </ul>
+    <a href="#comprar" class="btn-primary">Quiero empezar hoy — $17 USD</a>
+    <span class="precio-hint">✓ Descarga inmediata &nbsp;·&nbsp; ✓ Garantía 7 días</span>
+  </div>
+
+  <div class="hero-visual">
+    <div class="book-wrap">
+      <div class="book">
+        <div class="book-title">Finanzas Personales<br><span>desde Cero</span></div>
+        <div class="book-author">por Jessica Valarezo — Valco</div>
+        <div class="book-line"></div>
+        <div class="book-line"></div>
+        <div class="book-line"></div>
+        <div class="book-line"></div>
+        <div class="book-line"></div>
+        <div class="book-line"></div>
+        <div class="book-badge">+ PLANTILLA EXCEL INCLUIDA</div>
+      </div>
+      <div class="excel-badge">📊 Excel<br>Bonus</div>
+    </div>
+  </div>
+</section>
+
+<!-- DOLOR -->
+<section class="dolor">
+  <span class="section-tag">¿Te identificas?</span>
+  <h2 class="section-title">¿Alguna vez te has preguntado<br>a dónde se fue tu dinero?</h2>
+  <div class="dolor-grid fade-in">
+    <div class="dolor-card">
+      <span class="icon">😰</span>
+      <h3>Llegas a cero antes de fin de mes</h3>
+      <p>Trabajas, recibes tu sueldo, pagas lo urgente... y misteriosamente el dinero desaparece sin que puedas explicar dónde fue.</p>
+    </div>
+    <div class="dolor-card">
+      <span class="icon">💳</span>
+      <h3>Las deudas no disminuyen</h3>
+      <p>Pagas cada mes pero el saldo sigue igual o crece. Sientes que estás atrapada en un ciclo sin salida.</p>
+    </div>
+    <div class="dolor-card">
+      <span class="icon">😟</span>
+      <h3>No tienes ahorros para emergencias</h3>
+      <p>Cualquier imprevisto —un médico, una reparación— te obliga a pedir prestado o usar la tarjeta de crédito.</p>
+    </div>
+    <div class="dolor-card">
+      <span class="icon">📚</span>
+      <h3>Nadie te enseñó esto</h3>
+      <p>En el colegio no enseñan a manejar el dinero. Y cuando quieres aprender, todo parece demasiado complicado o técnico.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUCIÓN -->
+<section class="solucion">
+  <span class="section-tag" style="color:var(--verde-cla)">La solución</span>
+  <h2 class="section-title">Todo lo que necesitas saber,<br>explicado de forma simple</h2>
+  <p class="solucion-intro">Este ebook te da las bases reales que nadie enseña en la escuela: conceptos claros, ejemplos prácticos y ejercicios que puedes aplicar desde hoy con la plantilla Excel incluida.</p>
+
+  <div class="caps-grid fade-in">
+    <div class="cap-card">
+      <div class="cap-num">01</div>
+      <h3>Mentalidad Financiera</h3>
+      <p>Identifica las creencias limitantes sobre el dinero que te frenan y cómo cambiarlas para siempre.</p>
+    </div>
+    <div class="cap-card">
+      <div class="cap-num">02</div>
+      <h3>Diagnóstico Financiero</h3>
+      <p>Aprende a hacer una fotografía honesta de tu situación: ingresos, gastos y deudas reales.</p>
+    </div>
+    <div class="cap-card">
+      <div class="cap-num">03</div>
+      <h3>Presupuesto 50/30/20</h3>
+      <p>El método más simple y efectivo para distribuir tu dinero cada mes, con ejemplos para distintos ingresos.</p>
+    </div>
+    <div class="cap-card">
+      <div class="cap-num">04</div>
+      <h3>Identifica y Elimina Deudas</h3>
+      <p>Aprende a distinguir deudas buenas de tóxicas y las 2 estrategias probadas para salir de ellas.</p>
+    </div>
+    <div class="cap-card">
+      <div class="cap-num">05</div>
+      <h3>Fondo de Emergencia</h3>
+      <p>Cómo construir tu red de seguridad financiera desde cero, aunque empieces con $20 al mes.</p>
+    </div>
+    <div class="cap-card">
+      <div class="cap-num">06</div>
+      <h3>Primeros Pasos para Ahorrar</h3>
+      <p>10 estrategias reales para ahorrar más cada mes y el poder del interés compuesto a tu favor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BONUS EXCEL -->
+<section class="bonus">
+  <div class="bonus-inner fade-in">
+    <div>
+      <span class="section-tag">Bonus incluido</span>
+      <h2>Plantilla Excel<br>lista para usar</h2>
+      <p class="bonus-desc">No solo leerás conceptos — los aplicarás de inmediato. La plantilla tiene todo calculado automáticamente. Solo ingresas tus números y la hoja hace el resto.</p>
+      <ul class="hojas-list">
+        <li><span class="dot"></span>📊 Diagnóstico financiero mensual</li>
+        <li><span class="dot"></span>💰 Calculadora Presupuesto 50/30/20</li>
+        <li><span class="dot"></span>💳 Tracker de Deudas con cálculo automático</li>
+        <li><span class="dot"></span>🎯 Registro de Ahorro anual</li>
+        <li><span class="dot"></span>🛡️ Seguimiento del Fondo de Emergencia</li>
+      </ul>
+    </div>
+    <div class="excel-mock">
+      <div class="excel-tabs">
+        <div class="excel-tab active">📊 Diagnóstico</div>
+        <div class="excel-tab">💰 50/30/20</div>
+        <div class="excel-tab">💳 Deudas</div>
+        <div class="excel-tab">🎯 Ahorro</div>
+        <div class="excel-tab">🛡️ Fondo</div>
+      </div>
+      <div class="excel-header">
+        <div class="excel-cell label">Categoría</div>
+        <div class="excel-cell">Monto</div>
+        <div class="excel-cell">Estado</div>
+      </div>
+      <div class="excel-header">
+        <div class="excel-cell label">Sueldo principal</div>
+        <div class="excel-cell value">$650</div>
+        <div class="excel-cell">Mensual</div>
+      </div>
+      <div class="excel-header">
+        <div class="excel-cell label">Arriendo</div>
+        <div class="excel-cell value">$200</div>
+        <div class="excel-cell">Fijo</div>
+      </div>
+      <div class="excel-header">
+        <div class="excel-cell label">Alimentación</div>
+        <div class="excel-cell value">$120</div>
+        <div class="excel-cell">Variable</div>
+      </div>
+      <div class="excel-header">
+        <div class="excel-cell label" style="color:#f4a261;font-weight:700">SALDO</div>
+        <div class="excel-cell total">$330</div>
+        <div class="excel-cell total">✓ OK</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
+<section class="para-quien">
+  <span class="section-tag">¿Es para ti?</span>
+  <h2 class="section-title">Este ebook es para ti si...</h2>
+  <div class="pq-grid fade-in">
+    <div class="pq-card">
+      <span class="icon">👩‍💼</span>
+      <h3>Tienes trabajo pero no llegas a ahorrar</h3>
+      <p>Ganas dinero pero a fin de mes no sabes a dónde fue. Quieres cambiar ese patrón de una vez.</p>
+    </div>
+    <div class="pq-card">
+      <span class="icon">🎓</span>
+      <h3>Eres joven y quieres empezar bien</h3>
+      <p>Acabas de empezar a trabajar y quieres construir buenos hábitos financieros desde el principio.</p>
+    </div>
+    <div class="pq-card">
+      <span class="icon">😓</span>
+      <h3>Tienes deudas y no sabes por dónde empezar</h3>
+      <p>Las deudas te generan ansiedad. Necesitas un plan claro y simple para empezar a salir de ellas.</p>
+    </div>
+    <div class="pq-card">
+      <span class="icon">📖</span>
+      <h3>Nunca tuviste educación financiera</h3>
+      <p>Nadie te enseñó esto. Quieres aprender desde cero, sin términos complicados ni conceptos abstractos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUTORA -->
+<section class="autora">
+  <div class="autora-inner fade-in">
+    <div class="avatar">JV</div>
+    <div class="autora-content">
+      <span class="marca">Valco</span>
+      <h2>Hola, soy Jessica Valarezo</h2>
+      <p>Soy exactamente el perfil de persona para quien escribí este ebook: alguien que llegó a un punto en su vida donde quería entender de verdad a dónde iba su dinero. No soy contadora ni economista. Soy alguien que aprendió las bases de las finanzas personales y quiere compartirlo de forma honesta y práctica.<br><br>
+      Este ebook es lo que me hubiera gustado tener cuando empecé. Sin promesas de hacerte rica, sin fórmulas complicadas. Solo conceptos reales, aplicables desde hoy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="comprar">
+  <h2>Empieza tu transformación<br>financiera hoy</h2>
+  <p>Todo lo que necesitas saber sobre finanzas personales, en un solo lugar. Con la plantilla Excel para aplicarlo de inmediato.</p>
+
+  <div class="precio-box">
+    <div class="precio-label">Precio de lanzamiento</div>
+    <div class="precio-monto">$17 <span style="font-size:1.5rem">USD</span></div>
+    <div class="precio-inc">✓ Ebook PDF completo &nbsp;·&nbsp; ✓ Plantilla Excel bonus &nbsp;·&nbsp; ✓ Descarga inmediata</div>
+  </div>
+
+  <br>
+  <a href="https://pay.hotmart.com/TU_LINK_AQUI" class="btn-primary" style="font-size:1.2rem; padding:20px 52px;">
+    Quiero mi copia ahora →
+  </a>
+  <p class="garantia">🔒 Pago seguro procesado por Hotmart &nbsp;·&nbsp; Garantía de 7 días</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <strong>Jessica Valarezo — Valco</strong>. Todos los derechos reservados.<br>
+  Este producto tiene fines educativos. Los resultados dependen de la aplicación individual de cada persona.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
